@@ -1,12 +1,12 @@
-# ARLTR
+# ARLTR - All Roads Lead To Rome
 
 <p align="center">
-  <img src="favicon.png" alt="ARLTR Logo" width="100">
+  <img src="gh-images/favicon.png" alt="ARLTR Logo" width="100">
 </p>
 
 **All roads lead to Rome, don't believe me? Go try.**
 
-🌍 **Live Site:** [arltr.syslink.dev](https://arltr.syslink.dev)
+**Live Site:** [arltr.syslink.dev](https://arltr.syslink.dev)
 
 ## Preview
 
@@ -20,54 +20,55 @@
   <img src="gh-images/websiteused.png" alt="ARLTR in Action" width="600">
 </p>
 
-## What is ARLTR?
+## About
 
-ARLTR is an interactive web application that proves the famous saying "All roads lead to Rome" by showing you the actual route from any location in the world to Rome, Italy. Simply click anywhere on the map and watch as the app calculates the best possible path to the Eternal City.
+ARLTR is an interactive web application that puts the ancient saying "All roads lead to Rome" to the test. Whether you're clicking from the bustling streets of Tokyo, the remote islands of Polynesia, or the vast expanses of the Sahara Desert, our app will find a way to get you to the Eternal City.
 
-## Features
+This isn't just about proving a point – it's about exploring the incredible connectivity of our world and discovering the creative solutions required when traditional routes don't exist.
 
-✨ **Interactive World Map** - Click anywhere to start your journey  
-🛣️ **Smart Routing** - Automatically finds the best land routes when possible  
-🚢 **Sea Routes** - When land routes aren't available, shows combined sea and land journeys  
-📍 **Multiple Route Types** - Displays different route segments with clear visual distinctions  
-⚡ **Real-time Calculations** - Uses live routing data for accurate travel paths  
-🎯 **Distance Information** - Shows total distance and route breakdown  
+## What It Does
+
+**Interactive Global Mapping** - Click anywhere on our world map to begin your journey  
+**Intelligent Route Planning** - Automatically determines the best possible path to Rome  
+**Multi-Modal Transportation** - Seamlessly combines land and sea routes when needed  
+**Visual Route Differentiation** - Clear distinctions between different types of travel segments  
+**Real-Time Route Calculation** - Uses current routing data for accurate pathfinding  
+**Comprehensive Distance Metrics** - Detailed breakdown of your journey's length  
 
 ## How It Works
 
-1. **Click anywhere** on the world map
-2. The app will place a green marker at your chosen starting point
-3. It automatically calculates the best route to Rome
-4. **Land routes** appear as blue lines for direct road connections
-5. **Sea routes** appear as red dashed lines when crossing water bodies
-6. **Combined routes** show port stops and multiple transport methods
-7. View the total distance and route details in the popup
+The process is refreshingly simple. Click any location on the map, and watch as ARLTR places a marker at your chosen starting point. The application then gets to work, analyzing possible routes and calculating the most practical path to Rome.
 
-## Route Types
+When direct land routes are available, you'll see clean blue lines tracing highways and roads across continents. But here's where it gets interesting – when you click somewhere truly remote, like a Pacific island or the middle of the Atlantic Ocean, ARLTR doesn't give up. Instead, it finds the nearest major port, creates a sea route to get you there, then continues with land-based travel to complete your journey to Rome.
 
-- **🛣️ Direct Land Route** - When a road connection exists all the way to Rome
-- **🚢 Sea + Land Route** - When starting from islands or remote coastal areas
-- **⚓ Port Connections** - Shows major ports used for sea crossings
-- **📏 Straight Line** - Displays direct distance when no route is possible
+## Route Types Explained
 
-## Technology
+**Direct Land Routes** appear as solid blue lines when continuous road networks connect your starting point directly to Rome. These are your standard overland journeys.
 
-Built with modern web technologies for a smooth, responsive experience across all devices. The app uses real-world routing data to ensure accurate and up-to-date travel information.
+**Combined Sea and Land Routes** kick in when your starting location requires ocean travel. Red dashed lines indicate maritime portions of your journey, while blue segments show the overland portions.
 
-## Beta Version
+**Port Integration** automatically identifies major international ports and shipping hubs, displaying them as waypoints in your journey when sea travel is necessary.
 
-This is currently a **BETA** version. We're actively improving the routing algorithms and adding new features. 
+**Distance Calculations** provide both individual segment distances and total journey length, giving you a complete picture of your theoretical trip to Rome.
 
-## Feedback & Support
+## The Technology Behind It
 
-Got suggestions or found an issue? Reach out to us!
+ARLTR leverages modern web technologies and real-world routing APIs to deliver accurate, up-to-date travel information. The application responds instantly to user interactions while processing complex geographical calculations in the background.
+
+## Current Status
+
+This is a beta release, which means we're continuously refining the routing algorithms and adding new features based on user feedback. The core functionality is solid, but we're always working to make the experience even better.
+
+## Get In Touch
+
+Found something interesting? Have suggestions for improvement? We'd love to hear from you.
 
 **Discord:** syslink.sh
 
 ## Credits
 
-Made with ❤️ by [SySLink](https://syslink.dev) © 2025
+Developed by [SySLink](https://syslink.dev) © 2025
 
 ---
 
-*Remember: All roads really do lead to Rome... and now you can see exactly how!*
+*Sometimes the most profound truths are hidden in the simplest statements. All roads really do lead to Rome – and now you can see exactly how.*
