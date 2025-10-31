@@ -28,8 +28,24 @@ The app automatically determines whether to use land routes, sea routes, or a co
 
 Click anywhere on the world map. The app places a marker and calculates your route to Rome using real-world routing data. It handles everything from simple overland journeys to complex multi-modal trips involving ocean crossings.
 
+## Customization
+
+Want to create your own version? ARLTR is fully customizable through the `config.js` file. You can:
+
+**Change the destination city** - Modify `DESTINATION.coords` and `DESTINATION.name` to route to any city  
+**Update branding** - Change site title, footer text, and contact information  
+**Customize colors** - Modify route colors, marker icons, and styling  
+**Toggle features** - Enable/disable beta badge, feedback button, and other features  
+**Adjust map settings** - Set default zoom levels and map boundaries  
+
+Simply edit the values in `config.js` and your changes will automatically apply to the website.
+
 ## Contact
 
 **Discord:** syslink.sh
 
-Developed by [SySLink](https://syslink.dev) © 2025
+Developed by [SySLink](https://syslink.dev)
+
+## License
+
+You're allowed to fork this project, just credit me and it's enough.

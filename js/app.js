@@ -1,8 +1,8 @@
 // BETA VERSION - For testing and feedback
 //
 // Constants
-const ROME_COORDS = [41.9028, 12.4964];
-const REQUEST_TIMEOUT = 15000;
+const ROME_COORDS = CONFIG.DESTINATION.coords;
+const REQUEST_TIMEOUT = CONFIG.FEATURES.requestTimeout;
 
 // Global variables
 let mainMap;
@@ -12,25 +12,25 @@ let currentRouteElements = [];
 
 // Initialize map
 function initializeMap() {
-    // Create map centered on Rome
-    mainMap = L.map('map').setView(ROME_COORDS, 4);
+    // Create map centered on destination
+    mainMap = L.map('map').setView(ROME_COORDS, CONFIG.MAP.defaultZoom);
 
     // Add tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors | Made by SySLink'
     }).addTo(mainMap);
 
-    // Add Rome marker
-    const romeIcon = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+    // Add destination marker
+    const destinationIcon = L.icon({
+        iconUrl: CONFIG.ICONS.destination,
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34]
     });
 
-    L.marker(ROME_COORDS, { icon: romeIcon })
+    L.marker(ROME_COORDS, { icon: destinationIcon })
         .addTo(mainMap)
-        .bindPopup('Rome - The Eternal City')
+        .bindPopup(CONFIG.DESTINATION.displayName)
         .openPopup();
 
     // Add click handler
@@ -84,7 +84,7 @@ async function handleMapClick(e) {
     // Add marker for clicked location
     startMarker = L.marker(clickedPoint, {
         icon: L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            iconUrl: CONFIG.ICONS.start,
             iconSize: [25, 41],
             iconAnchor: [12, 41],
             popupAnchor: [1, -34]
@@ -106,14 +106,10 @@ async function handleMapClick(e) {
         if (route) {
             // Land route found
             routePath = L.geoJSON(route.geometry, {
-                style: {
-                    color: '#2196F3',
-                    weight: 3,
-                    opacity: 0.8
-                }
+                style: CONFIG.ROUTES.landRoute
             }).addTo(mainMap);
             const distance = (route.distance / 1000).toFixed(1);
-            routePath.bindPopup(`Road route to Rome: ${distance} km`).openPopup();
+            routePath.bindPopup(`Road route to ${CONFIG.DESTINATION.name}: ${distance} km`).openPopup();
             mainMap.fitBounds(routePath.getBounds(), { padding: [50, 50] });
         } else {
             // No land route, fallback to sea route
@@ -123,7 +119,7 @@ async function handleMapClick(e) {
                 const seaRoute = createWaterRoute(clickedPoint, nearestPort.coords);
                 const portMarker = L.marker(nearestPort.coords, {
                     icon: L.icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                        iconUrl: CONFIG.ICONS.port,
                         iconSize: [20, 32],
                         iconAnchor: [10, 32],
                         popupAnchor: [1, -28]
@@ -139,29 +135,20 @@ async function handleMapClick(e) {
                 }
                 // Draw paths
                 const waterPath = L.geoJSON(seaRoute.geometry, {
-                    style: {
-                        color: '#ff0000',
-                        weight: 4,
-                        opacity: 0.8,
-                        dashArray: '15, 10'
-                    }
+                    style: CONFIG.ROUTES.seaRoute
                 }).addTo(mainMap);
                 let groupLayers = [waterPath, portMarker];
                 let totalDistance = seaRoute.distance;
                 if (landRoute) {
                     const landPath = L.geoJSON(landRoute.geometry, {
-                        style: {
-                            color: '#2196F3',
-                            weight: 3,
-                            opacity: 0.8
-                        }
+                        style: CONFIG.ROUTES.landRoute
                     }).addTo(mainMap);
                     groupLayers.push(landPath);
                     totalDistance += landRoute.distance;
                 }
                 routePath = L.featureGroup(groupLayers).addTo(mainMap);
                 routePath.bindPopup(
-                    `Combined route to Rome:<br>` +
+                    `Combined route to ${CONFIG.DESTINATION.name}:<br>` +
                     `Sea route: ${(seaRoute.distance / 1000).toFixed(1)} km<br>` +
                     (landRoute ? `Land route: ${(landRoute.distance / 1000).toFixed(1)} km<br>` : '') +
                     `Total: ${(totalDistance / 1000).toFixed(1)} km`
@@ -169,27 +156,17 @@ async function handleMapClick(e) {
                 mainMap.fitBounds(routePath.getBounds(), { padding: [50, 50] });
             } else {
                 // No port found, show straight line
-                routePath = L.polyline([clickedPoint, ROME_COORDS], {
-                    color: '#ff4444',
-                    weight: 2,
-                    opacity: 0.6,
-                    dashArray: '5, 10'
-                }).addTo(mainMap);
+                routePath = L.polyline([clickedPoint, ROME_COORDS], CONFIG.ROUTES.errorRoute).addTo(mainMap);
                 const directDistance = (mainMap.distance(clickedPoint, ROME_COORDS) / 1000).toFixed(1);
-                routePath.bindPopup(`Direct distance to Rome: ${directDistance} km (No route available)`);
+                routePath.bindPopup(`Direct distance to ${CONFIG.DESTINATION.name}: ${directDistance} km (No route available)`);
             }
         }
     } catch (error) {
         console.error('Route calculation error:', error);
-        startMarker.bindPopup('Unable to find a route to Rome from this location').openPopup();
-        routePath = L.polyline([clickedPoint, ROME_COORDS], {
-            color: '#ff4444',
-            weight: 2,
-            opacity: 0.6,
-            dashArray: '5, 10'
-        }).addTo(mainMap);
+        startMarker.bindPopup(`Unable to find a route to ${CONFIG.DESTINATION.name} from this location`).openPopup();
+        routePath = L.polyline([clickedPoint, ROME_COORDS], CONFIG.ROUTES.errorRoute).addTo(mainMap);
         const directDistance = (mainMap.distance(clickedPoint, ROME_COORDS) / 1000).toFixed(1);
-        routePath.bindPopup(`Direct distance to Rome: ${directDistance} km (No route available)`);
+        routePath.bindPopup(`Direct distance to ${CONFIG.DESTINATION.name}: ${directDistance} km (No route available)`);
     } finally {
         document.getElementById('loading').classList.add('hidden');
     }
@@ -307,13 +284,23 @@ function findNearestPort(point) {
 
 // Initialize when document is ready
 document.addEventListener('DOMContentLoaded', () => {
+    // Update page elements with config values
+    document.title = CONFIG.SITE_TITLE;
+    document.querySelector('h1').innerHTML = `All Roads Lead To ${CONFIG.DESTINATION.name} <span style="font-size:0.5em; color:#fff; background:#2196F3; border-radius:6px; padding:2px 8px; margin-left:10px; vertical-align:middle;">${CONFIG.FEATURES.showBetaBadge ? 'BETA' : ''}</span>`;
+    document.querySelector('.instructions p').textContent = `Click anywhere on the map to find your path to ${CONFIG.DESTINATION.name}!`;
+    document.querySelector('.footer').innerHTML = `${CONFIG.BRANDING.footerText} <a href="${CONFIG.BRANDING.footerLink}" target="_blank" style="color: #2196F3; text-decoration: none;">${CONFIG.BRANDING.footerLinkText}</a> ${CONFIG.BRANDING.copyright}`;
+    
+    // Update feedback modal
+    document.querySelector('#feedbackModalContent p').innerHTML = `To send feedback or contact the team,<br>reach out to me on Discord.`;
+    document.querySelector('#feedbackModalContent div').innerHTML = `Discord: <b>${CONFIG.BRANDING.feedbackDiscord}</b>`;
+    
     initializeMap();
     // Feedback button logic
     const feedbackBtn = document.getElementById('feedbackBtn');
     const feedbackModal = document.getElementById('feedbackModal');
     const feedbackModalContent = document.getElementById('feedbackModalContent');
     const closeFeedback = document.getElementById('closeFeedback');
-    if (feedbackBtn && feedbackModal && feedbackModalContent && closeFeedback) {
+    if (feedbackBtn && feedbackModal && feedbackModalContent && closeFeedback && CONFIG.FEATURES.enableFeedbackButton) {
         feedbackModal.classList.add('hidden');
         feedbackBtn.addEventListener('click', () => {
             feedbackModal.classList.remove('hidden');
@@ -326,5 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 feedbackModal.classList.add('hidden');
             }
         });
+    } else if (!CONFIG.FEATURES.enableFeedbackButton) {
+        feedbackBtn.style.display = 'none';
     }
 });
