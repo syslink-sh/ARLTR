@@ -4,10 +4,6 @@
   <img src="gh-images/ARLTR.png" alt="ARLTR Banner" width="800">
 </p>
 
-<p align="center">
-  <img src="favicon.png" alt="ARLTR Logo" width="100">
-</p>
-
 **All roads lead to Rome, don't believe me? Go try.**
 
 **Live Site:** [arltr.syslink.dev](https://arltr.syslink.dev)
