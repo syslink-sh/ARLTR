@@ -1,7 +1,7 @@
-# ARLTR - All Roads Lead To Rome
+# ARLTR
 
 <p align="center">
-  <img src="gh-images/favicon.png" alt="ARLTR Logo" width="100">
+  <img src="favicon.png" alt="ARLTR Logo" width="100">
 </p>
 
 **All roads lead to Rome, don't believe me? Go try.**
