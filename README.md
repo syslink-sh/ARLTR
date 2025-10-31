@@ -48,4 +48,4 @@ Developed by [SySLink](https://syslink.dev)
 
 ## License
 
-You're allowed to fork this project, just credit me and it's enough.
+You're allowed to fork this project, just credit me.
