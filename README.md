@@ -1,6 +1,10 @@
 # ARLTR - All Roads Lead To Rome
 
 <p align="center">
+  <img src="gh-images/ARLTR.png" alt="ARLTR Banner" width="800">
+</p>
+
+<p align="center">
   <img src="favicon.png" alt="ARLTR Logo" width="100">
 </p>
 
