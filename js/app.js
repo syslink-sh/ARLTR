@@ -1,26 +1,26 @@
-// BETA VERSION - For testing and feedback
+// beta stuff
 //
-// Constants
+// stuff
 const ROME_COORDS = CONFIG.DESTINATION.coords;
 const REQUEST_TIMEOUT = CONFIG.FEATURES.requestTimeout;
 
-// Global variables
+// vars
 let mainMap;
 let startMarker = null;
 let routePath = null;
 let currentRouteElements = [];
 
-// Initialize map
+// map setup
 function initializeMap() {
-    // Create map centered on destination
+    // make map
     mainMap = L.map('map').setView(ROME_COORDS, CONFIG.MAP.defaultZoom);
 
-    // Add tile layer
+    // tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors | Made by SySLink'
     }).addTo(mainMap);
 
-    // Add destination marker
+    // marker
     const destinationIcon = L.icon({
         iconUrl: CONFIG.ICONS.destination,
         iconSize: [25, 41],
@@ -33,19 +33,19 @@ function initializeMap() {
         .bindPopup(CONFIG.DESTINATION.displayName)
         .openPopup();
 
-    // Add click handler
+    // clicks
     mainMap.on('click', handleMapClick);
 }
 
-// Check if a point is in a major water body
+// water check
 function isInMajorWaterBody(point) {
-    // Rough bounding boxes for major water bodies
+    // water areas
     const waterBodies = [
-        // Mediterranean Sea
+        // med sea
         { name: 'Mediterranean', bounds: [[30, -5], [46, 36]] },
-        // North Atlantic
+        // atlantic
         { name: 'North Atlantic', bounds: [[35, -30], [60, -5]] },
-        // North Sea
+        // north sea
         { name: 'North Sea', bounds: [[51, -4], [60, 8]] }
     ];
 
@@ -56,16 +56,16 @@ function isInMajorWaterBody(point) {
     });
 }
 
-// Handle map clicks
+// click handler
 async function handleMapClick(e) {
-    // Prevent multiple simultaneous calculations
+    // no double clicks
     if (document.getElementById('loading').classList.contains('hidden') === false) {
         return;
     }
     
     const clickedPoint = [e.latlng.lat, e.latlng.lng];
     
-    // Clear all previous route elements
+    // clear old stuff
     if (startMarker) {
         mainMap.removeLayer(startMarker);
         startMarker = null;
@@ -81,7 +81,7 @@ async function handleMapClick(e) {
     });
     currentRouteElements = [];
 
-    // Add marker for clicked location
+    // add marker
     startMarker = L.marker(clickedPoint, {
         icon: L.icon({
             iconUrl: CONFIG.ICONS.start,
@@ -91,11 +91,11 @@ async function handleMapClick(e) {
         })
     }).addTo(mainMap);
 
-    // Show loading indicator
+    // loading
     document.getElementById('loading').classList.remove('hidden');
 
     try {
-        // Always try land route first
+        // try land first
         let route = null;
         try {
             route = await calculateRoute(clickedPoint, ROME_COORDS);
@@ -104,7 +104,7 @@ async function handleMapClick(e) {
         }
 
         if (route) {
-            // Land route found
+            // got land route
             routePath = L.geoJSON(route.geometry, {
                 style: CONFIG.ROUTES.landRoute
             }).addTo(mainMap);
@@ -112,10 +112,10 @@ async function handleMapClick(e) {
             routePath.bindPopup(`Road route to ${CONFIG.DESTINATION.name}: ${distance} km`).openPopup();
             mainMap.fitBounds(routePath.getBounds(), { padding: [50, 50] });
         } else {
-            // No land route, fallback to sea route
+            // no land, try sea
             const nearestPort = findNearestPort(clickedPoint);
             if (nearestPort) {
-                // Sea route to port
+                // sea to port
                 const seaRoute = createWaterRoute(clickedPoint, nearestPort.coords);
                 const portMarker = L.marker(nearestPort.coords, {
                     icon: L.icon({
@@ -126,14 +126,14 @@ async function handleMapClick(e) {
                     })
                 }).addTo(mainMap)
                     .bindPopup(`Nearest port: ${nearestPort.name}`);
-                // Land route from port to Rome
+                // port to destination
                 let landRoute = null;
                 try {
                     landRoute = await calculateRoute(nearestPort.coords, ROME_COORDS);
                 } catch (portError) {
                     landRoute = null;
                 }
-                // Draw paths
+                // draw lines
                 const waterPath = L.geoJSON(seaRoute.geometry, {
                     style: CONFIG.ROUTES.seaRoute
                 }).addTo(mainMap);
@@ -155,7 +155,7 @@ async function handleMapClick(e) {
                 ).openPopup();
                 mainMap.fitBounds(routePath.getBounds(), { padding: [50, 50] });
             } else {
-                // No port found, show straight line
+                // no port, straight line
                 routePath = L.polyline([clickedPoint, ROME_COORDS], CONFIG.ROUTES.errorRoute).addTo(mainMap);
                 const directDistance = (mainMap.distance(clickedPoint, ROME_COORDS) / 1000).toFixed(1);
                 routePath.bindPopup(`Direct distance to ${CONFIG.DESTINATION.name}: ${directDistance} km (No route available)`);
@@ -172,14 +172,14 @@ async function handleMapClick(e) {
     }
 }
 
-// Check if a point is near a road
+// road check
 async function isNearRoad(point) {
     const url = `https://router.project-osrm.org/nearest/v1/driving/${point[1]},${point[0]}`;
     try {
         const response = await fetch(url);
         const data = await response.json();
         if (data.code === 'Ok' && data.waypoints && data.waypoints.length > 0) {
-            // If the distance to nearest road is more than 2km, consider it too far
+            // too far from road
             return data.waypoints[0].distance <= 2000;
         }
         return false;
@@ -188,7 +188,7 @@ async function isNearRoad(point) {
     }
 }
 
-// Calculate route between two points
+// get route
 async function calculateRoute(start, end) {
     const url = `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`;
     
@@ -210,7 +210,7 @@ async function calculateRoute(start, end) {
     }
 }
 
-// Create a water route
+// make water line
 function createWaterRoute(start, end) {
     const latlngs = [];
     const steps = 20;
@@ -237,9 +237,9 @@ function createWaterRoute(start, end) {
     };
 }
 
-// Find nearest port
+// find port
 function findNearestPort(point) {
-    // Define major ports by region
+    // ports list
     const ports = {
         mediterranean: [
             { name: "Civitavecchia (Rome's Port)", coords: [42.0938, 11.7896], priority: 1 },
@@ -267,10 +267,10 @@ function findNearestPort(point) {
     let bestPort = null;
     let shortestWeightedDistance = Infinity;
 
-    // Check all regions
+    // check ports
     Object.values(ports).flat().forEach(port => {
         const distance = mainMap.distance(point, port.coords);
-        // Weight distance by port priority (closer to Rome = better)
+        // priority stuff
         const weightedDistance = distance * port.priority;
         
         if (weightedDistance < shortestWeightedDistance) {
@@ -282,20 +282,20 @@ function findNearestPort(point) {
     return bestPort;
 }
 
-// Initialize when document is ready
+// start
 document.addEventListener('DOMContentLoaded', () => {
-    // Update page elements with config values
+    // update page
     document.title = CONFIG.SITE_TITLE;
     document.querySelector('h1').innerHTML = `All Roads Lead To ${CONFIG.DESTINATION.name} <span style="font-size:0.5em; color:#fff; background:#2196F3; border-radius:6px; padding:2px 8px; margin-left:10px; vertical-align:middle;">${CONFIG.FEATURES.showBetaBadge ? 'BETA' : ''}</span>`;
     document.querySelector('.instructions p').textContent = `Click anywhere on the map to find your path to ${CONFIG.DESTINATION.name}!`;
     document.querySelector('.footer').innerHTML = `${CONFIG.BRANDING.footerText} <a href="${CONFIG.BRANDING.footerLink}" target="_blank" style="color: #2196F3; text-decoration: none;">${CONFIG.BRANDING.footerLinkText}</a> ${CONFIG.BRANDING.copyright}`;
     
-    // Update feedback modal
+    // modal stuff
     document.querySelector('#feedbackModalContent p').innerHTML = `To send feedback or contact the team,<br>reach out to me on Discord.`;
     document.querySelector('#feedbackModalContent div').innerHTML = `Discord: <b>${CONFIG.BRANDING.feedbackDiscord}</b>`;
     
     initializeMap();
-    // Feedback button logic
+    // button clicks
     const feedbackBtn = document.getElementById('feedbackBtn');
     const feedbackModal = document.getElementById('feedbackModal');
     const feedbackModalContent = document.getElementById('feedbackModalContent');

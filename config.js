@@ -1,27 +1,27 @@
-// ARLTR Configuration File
-// Modify these values to customize your instance
+// config stuff
+// change stuff here
 
 const CONFIG = {
-    // Site Information
+    // site info
     SITE_TITLE: "ARLTR - All Roads Lead To Rome",
     SITE_DESCRIPTION: "All roads lead to Rome, don't believe me? Go try.",
     SITE_URL: "https://arltr.syslink.dev",
     
-    // Destination City (Default: Rome)
+    // destination
     DESTINATION: {
         name: "Rome",
         displayName: "Rome - The Eternal City",
-        coords: [41.9028, 12.4964] // [latitude, longitude]
+        coords: [41.9028, 12.4964] // lat lng
     },
     
-    // Map Settings
+    // map stuff
     MAP: {
         defaultZoom: 4,
         minZoom: 2,
         maxZoom: 18
     },
     
-    // Route Colors and Styles
+    // route colors
     ROUTES: {
         landRoute: {
             color: '#2196F3',
@@ -42,14 +42,14 @@ const CONFIG = {
         }
     },
     
-    // Marker Icons
+    // icons
     ICONS: {
         destination: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
         start: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         port: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png'
     },
     
-    // Branding
+    // branding
     BRANDING: {
         footerText: "Made by",
         footerLink: "https://syslink.dev",
@@ -58,15 +58,15 @@ const CONFIG = {
         feedbackDiscord: "syslink.sh"
     },
     
-    // Features
+    // features
     FEATURES: {
         showBetaBadge: true,
         enableFeedbackButton: true,
-        requestTimeout: 15000 // milliseconds
+        requestTimeout: 15000 // ms
     }
 };
 
-// Export for use in other files
+// export
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = CONFIG;
 }

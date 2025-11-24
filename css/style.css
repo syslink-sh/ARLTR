@@ -1,22 +1,28 @@
+/* hide stuff */
 .hidden {
     display: none !important;
 }
+
+/* reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* full height */
 html, body {
     height: 100%;
     width: 100%;
 }
 
+/* body style */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
 }
 
+/* container */
 .container {
     width: 100%;
     height: 100%;
@@ -27,6 +33,7 @@ body {
     flex-direction: column;
 }
 
+/* title */
 h1 {
     text-align: center;
     color: #333;
@@ -35,6 +42,7 @@ h1 {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
+/* map */
 #map {
     flex: 1;
     min-height: 500px;
@@ -45,11 +53,13 @@ h1 {
     background-color: #e5e3df;
 }
 
+/* loading map */
 .map-loading {
     filter: blur(2px);
     pointer-events: none;
 }
 
+/* instructions */
 .instructions {
     text-align: center;
     margin-top: 20px;
@@ -57,6 +67,7 @@ h1 {
     font-size: 1.2em;
 }
 
+/* loading popup */
 .loading {
     position: absolute;
     top: 50%;
@@ -70,10 +81,12 @@ h1 {
     font-size: 1.1em;
 }
 
+/* hide again */
 .hidden {
     display: none;
 }
 
+/* footer */
 .footer {
     text-align: center;
     margin-top: 20px;
@@ -82,6 +95,7 @@ h1 {
     font-style: italic;
 }
 
+/* error popup */
 .error-popup {
     background-color: #ff4444;
     color: white;
