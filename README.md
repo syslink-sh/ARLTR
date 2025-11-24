@@ -40,7 +40,7 @@ just edit the file. it updates. nothing fancy.
 
 ## contact
 
-discord: syslink.sh
+discord: [https://discord.gg/JWwYRNWBN4](https://discord.gg/JWwYRNWBN4)
 made by syslink
 
 ## license
