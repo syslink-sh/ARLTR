@@ -1,48 +1,57 @@
-# arltr - all roads lead to rome
+# ARLTR - All Roads Lead To Rome
 
-<p align="center">
-  <img src="gh-images/ARLTR.png" alt="ARLTR Banner" width="800">
-</p>
+## About
 
-all roads lead to rome or whatever. try it if u want.
+ARLTR is an interactive mapping application that proves the ancient saying "all roads lead to Rome." Click anywhere on the map to calculate a route from that point to Rome, Italy. The application features a nostalgic Windows Classic interface design.
 
-live site: [https://arltr.syslink.dev](https://arltr.syslink.dev)
+## Features
 
-## preview
+- Interactive world map with point-and-click route planning
 
-<p align="center">
-  <img src="gh-images/website.png" alt="ARLTR Website" width="600">
-</p>
+## Development Setup
 
-<p align="center">
-  <img src="gh-images/websiteused.png" alt="ARLTR in Action" width="600">
-</p>
+### Prerequisites
 
-## about
+- Node.js (v16 or higher)
+- npm or yarn
+- GraphHopper API key ( get it from [here](https://support.graphhopper.com/a/solutions/articles/44001976027) )
 
-arltr just shows u a route to rome. click anywhere and it does its thing. land, sea, both… it picks whatever. blue lines for land, red dashed for sea. simple.
+### Installation
 
-## how it works
+1. Clone the repository:
+```bash
+git clone https://github.com/syslink-sh/ARLTR.git
+cd ARLTR
+```
 
-click on the map, it drops a marker, calculates a route, done. handles boring overland stuff and random sea crossings automatically.
+2. Install dependencies:
+```bash
+npm install
+```
 
-## customization
+3. Configure environment variables:
+```bash
+cp .env.example .env
+```
 
-u can mess with everything in `config.js`:
+Edit `.env` and add your GraphHopper API key:
+```
+GRAPHHOPPER_API_KEY=your_api_key_here
+PORT=3000
+NODE_ENV=development
+```
 
-* change destination coords + name
-* change title, footer, whatever branding u want
-* change colors and markers
-* toggle features on/off
-* adjust map zoom and boundaries
+4. Start the development server:
+```bash
+npm start
+```
 
-just edit the file. it updates. nothing fancy.
+5. Open your browser and navigate to `http://localhost:3000`
 
-## contact
+## License
 
-discord: [https://discord.gg/JWwYRNWBN4](https://discord.gg/JWwYRNWBN4)
-made by syslink
+MIT License - See LICENSE file for details
 
-## license
+---
 
-fork it if u want, just credit me.
+Made by [SySLink](https://github.com/syslink-sh) © 2025
