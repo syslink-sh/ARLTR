@@ -1,40 +1,31 @@
-// State
 let map;
 let romeCoords;
 let romeMarker;
 let startMarker = null;
 let routeLayer = null;
 
-// Initialize
 async function init() {
     try {
-        // Configuration
         const configResponse = await fetch('/api/config');
         const config = await configResponse.json();
         romeCoords = [config.rome.lat, config.rome.lng];
 
-        // Map
         initializeMap(config.rome);
 
-        // Events
         setupEventListeners();
     } catch (error) {
         showError('Failed to initialize application. Please refresh the page.');
     }
 }
 
-// Map initialization
 function initializeMap(romeConfig) {
-    // Center
     map = L.map('map').setView(romeCoords, 6);
 
-    // Tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors | Made by SySLink',
         maxZoom: 19
     }).addTo(map);
 
-    // Destination marker
     const romeIcon = L.icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
         iconSize: [25, 41],
@@ -49,16 +40,12 @@ function initializeMap(romeConfig) {
         .bindPopup(`<strong>${romeConfig.displayName}</strong><br`)
         .openPopup();
 
-    // Click handler
     map.on('click', handleMapClick);
 }
 
-// Event listeners
 function setupEventListeners() {
-    // Clear button
     document.getElementById('clearRoute').addEventListener('click', clearRoute);
 
-    // Keyboard
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             clearRoute();
@@ -66,17 +53,14 @@ function setupEventListeners() {
     });
 }
 
-// Click handler
 async function handleMapClick(e) {
     const clickedPoint = {
         lat: e.latlng.lat,
         lng: e.latlng.lng
     };
 
-    // Reset
     clearRoute();
 
-    // Start marker
     const startIcon = L.icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         iconSize: [25, 41],
@@ -91,11 +75,9 @@ async function handleMapClick(e) {
         .bindPopup('<strong>Starting Point</strong>')
         .openPopup();
 
-    // Route
     await calculateRoute(clickedPoint);
 }
 
-// Route calculation
 async function calculateRoute(start) {
     showLoading(true);
 
@@ -128,7 +110,6 @@ async function calculateRoute(start) {
         const errorMessage = error.message || 'Unable to calculate route. Please try a different location.';
         showError(errorMessage);
         
-        // Cleanup
         if (startMarker) {
             map.removeLayer(startMarker);
             startMarker = null;
@@ -138,12 +119,9 @@ async function calculateRoute(start) {
     }
 }
 
-// Route display
 function displayRoute(route) {
-    // Coordinates
     const latLngs = route.coordinates.map(coord => [coord[1], coord[0]]);
 
-    // Polyline
     routeLayer = L.polyline(latLngs, {
         color: '#0000ff',
         weight: 3,
@@ -151,29 +129,23 @@ function displayRoute(route) {
         lineJoin: 'miter'
     }).addTo(map);
 
-    // Viewport
     map.fitBounds(routeLayer.getBounds(), { padding: [50, 50] });
 }
 
-// Clear
 function clearRoute() {
-    // Start marker
     if (startMarker) {
         map.removeLayer(startMarker);
         startMarker = null;
     }
 
-    // Route layer
     if (routeLayer) {
         map.removeLayer(routeLayer);
         routeLayer = null;
     }
 
-    // Reset
     map.setView(romeCoords, 6);
 }
 
-// Loading state
 function showLoading(show) {
     const loadingDiv = document.getElementById('loading');
     if (show) {
@@ -183,10 +155,8 @@ function showLoading(show) {
     }
 }
 
-// Error display
 function showError(message) {
     alert(`Error: ${message}`);
 }
 
-// Bootstrap
 document.addEventListener('DOMContentLoaded', init);

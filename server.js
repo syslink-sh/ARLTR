@@ -9,7 +9,6 @@ const config = require('./config');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -26,12 +25,10 @@ app.use(compression());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Route endpoint
 app.post('/api/route', async (req, res) => {
     try {
         const { start, end, profile = 'car' } = req.body;
 
-        // Validation
         if (!start || !start.lat || !start.lng) {
             return res.status(400).json({ 
                 error: 'Invalid start coordinates',
@@ -46,7 +43,6 @@ app.post('/api/route', async (req, res) => {
             });
         }
 
-        // API request
         const graphhopperUrl = 'https://graphhopper.com/api/1/route';
         const params = new URLSearchParams({
             key: process.env.GRAPHHOPPER_API_KEY,
@@ -59,7 +55,6 @@ app.post('/api/route', async (req, res) => {
             calc_points: 'true'
         });
 
-        // Destination
         params.append('point', `${end.lat},${end.lng}`);
 
         const response = await fetch(`${graphhopperUrl}?${params.toString()}`);
@@ -67,7 +62,6 @@ app.post('/api/route', async (req, res) => {
         if (!response.ok) {
             const errorData = await response.json();
             
-            // Error handling
             let userMessage = 'Failed to calculate route';
             if (errorData.message && errorData.message.includes('Cannot find point')) {
                 userMessage = 'No roads found at this location. Please select a location with accessible roads.';
@@ -83,7 +77,6 @@ app.post('/api/route', async (req, res) => {
 
         const data = await response.json();
 
-        // Response
         if (data.paths && data.paths.length > 0) {
             const path = data.paths[0];
             res.json({
@@ -112,12 +105,10 @@ app.post('/api/route', async (req, res) => {
     }
 });
 
-// Config endpoint
 app.get('/api/config', (req, res) => {
     res.json(config);
 });
 
-// Health endpoint
 app.get('/api/health', (req, res) => {
     res.json({ 
         status: 'ok',
@@ -126,12 +117,10 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Fallback
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Server
 app.listen(PORT, () => {
     console.log(`ARLTR server running on http://localhost:${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV}`);
