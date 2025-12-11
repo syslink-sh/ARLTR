@@ -48,6 +48,11 @@ npm start
 
 5. Open your browser and navigate to `http://localhost:3000`
 
+## NOTES
+There is Netlify Configuration, If you would like to host on netlify you can else just delete the configuration.
+
+
+
 ## License
 
 MIT License - See LICENSE file for details

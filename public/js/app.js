@@ -123,10 +123,10 @@ function displayRoute(route) {
     const latLngs = route.coordinates.map(coord => [coord[1], coord[0]]);
 
     routeLayer = L.polyline(latLngs, {
-        color: '#0000ff',
-        weight: 3,
-        opacity: 1,
-        lineJoin: 'miter'
+        color: '#6366f1',
+        weight: 5,
+        opacity: 0.8,
+        lineJoin: 'round'
     }).addTo(map);
 
     map.fitBounds(routeLayer.getBounds(), { padding: [50, 50] });
