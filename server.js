@@ -25,6 +25,14 @@ app.use(compression());
 app.use(express.json());
 app.use(express.static('public'));
 
+// Validate required environment variables early
+try {
+    config.validateEnv();
+} catch (err) {
+    console.error('Configuration error:', err.message);
+    process.exit(1);
+}
+
 app.post('/api/route', async (req, res) => {
     try {
         const { start, end, profile = 'car' } = req.body;
@@ -123,6 +131,6 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`ARLTR server running on http://localhost:${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV}`);
-    console.log(`GraphHopper API: ${process.env.GRAPHHOPPER_API_KEY ? 'Configured' : 'NOT CONFIGURED'}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`GraphHopper API: ${config.getGraphhopperKey() ? 'Configured' : 'NOT CONFIGURED'}`);
 });
