@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  
+  --color-silver-50: #f8fafc;
+  --color-silver-100: #f1f5f9;
+  --color-silver-200: #e2e8f0;
+  --color-silver-300: #cbd5e1;
+  --color-silver-400: #94a3b8;
+  --color-silver-500: #64748b;
+  --color-silver-600: #475569;
+  --color-silver-700: #334155;
+  --color-silver-800: #1e293b;
+  --color-silver-900: #0f172a;
+}
+
+:root {
+  --map-tiles-filter: grayscale(0.2) contrast(1.1);
+}
+
+.dark {
+  --map-tiles-filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(90%) grayscale(1);
+}
+
+.leaflet-tile {
+  filter: var(--map-tiles-filter);
+}
+
+.leaflet-container {
+  background: #f1f5f9 !important;
+}
+
+.dark .leaflet-container {
+  background: #0f172a !important;
+}

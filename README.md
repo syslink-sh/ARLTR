@@ -2,19 +2,20 @@
 
 ## About
 
-ARLTR is an interactive mapping application that proves the ancient saying "all roads lead to Rome." Click anywhere on the map to calculate a route from that point to Rome, Italy. The application features a nostalgic Windows Classic interface design.
+ARLTR is an interactive mapping application that proves the ancient saying "all roads lead to Rome." Click anywhere on the map to calculate a route from that point to Rome, Italy.
 
 ## Features
 
-- Interactive world map with point-and-click route planning
+- **Interactive Map**: Point-and-click route planning to Rome from any global location.
+- **Theme Support**: Seamless Light and Dark modes with specialized map tile filtering.
 
 ## Development Setup
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js (v18 or higher)
 - npm or yarn
-- GraphHopper API key ( get it from [here](https://support.graphhopper.com/a/solutions/articles/44001976027) )
+- GraphHopper API key (Get it from [GraphHopper](https://www.graphhopper.com/))
 
 ### Installation
 
@@ -30,33 +31,25 @@ npm install
 ```
 
 3. Configure environment variables:
+Create a `.env` file in the root:
 ```bash
-cp .env.example .env
-```
-
-Edit `.env` and add your GraphHopper API key:
-```
 GRAPHHOPPER_API_KEY=your_api_key_here
-PORT=3000
-NODE_ENV=development
 ```
 
 4. Start the development server:
 ```bash
-npm start
+npm run dev
 ```
 
-5. Open your browser and navigate to `http://localhost:3000`
+5. Open your browser and navigate to `http://localhost:5173`
 
-## NOTES
+## Technical Details
 
-
-
-
-## License
-
-MIT License - See LICENSE file for details
+- **Framework**: SvelteKit 2
+- **Styling**: Tailwind CSS 4
+- **Mapping**: Leaflet.js
+- **Routing**: GraphHopper Routing
 
 ---
 
-Made by [SySLink](https://github.com/syslink-sh) © 2025
+Made by [SySLink](https://github.com/syslink-sh) © 2026
